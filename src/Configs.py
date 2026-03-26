@@ -53,10 +53,10 @@ class ARGS:
     if_use_meta=False
     patience=15
     MAX_epoches=200
-    npy_dir_path='/home/wangxiaoxiao/XM_11/DATAMAKE/pd_1/seqlen_512_horizon_48_stride_50_noPeriod'
-    dir_path='/home/wangxiaoxiao/XM_11/Flare/src'
-    kids_path='/home/wangxiaoxiao/XM_11/DATAMAKE/kids.npy'
-    meta_feats_path='/home/wangxiaoxiao/XM_11/DATAMAKE/kepler_meta_feats3.npy'
+    npy_dir_path='<DATASET_ROOT>/seqlen_512_horizon_48_stride_50_noPeriod'
+    dir_path='<PROJECT_ROOT>'
+    kids_path='<DATASET_ROOT>/kids.npy'
+    meta_feats_path='<DATASET_ROOT>/kepler_meta_feats3.npy'
     num_classes=2
     dim_in=2
     dim_meta_1=35

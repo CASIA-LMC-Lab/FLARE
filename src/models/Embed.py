@@ -383,7 +383,7 @@ class TS_Patch_Procedure(nn.Module):
 
     def ts_process_kepler(self,lc_flux,lc_time,lc_labels):
         lc_flux,lc_mask=lc_flux[:,:,0].detach().unsqueeze(dim=-1),lc_flux[:,:,1].detach()
-        lc_mask=1-lc_mask  # [b l] 1表示保留 0表示对应位置是nan
+        lc_mask=1-lc_mask  
         lc_flux=rearrange(lc_flux,'b l m -> b m l')
         if not self.ifNoNorm:
             normed_lc_flux=self.normalization_revin(lc_flux,mask=lc_mask,mode="norm")
@@ -400,7 +400,9 @@ class TS_Patch_Procedure(nn.Module):
             imputed_normed_lc_flux=rearrange(imputed_normed_lc_flux,'b m l -> b l m')
             trend_season_residual_patch=self.decompose_with_3(imputed_normed_lc_flux,lc_mask,lc_time_patch_emb,position_emb,lc_labels_patch_emb,lc_labels)
         else:
-            # www24 的方法
+            # Adapted from: https://github.com/liuxu77/UniTime/blob/main/models/unitime.py
+            # Licensed under Apache 2.0
+            # Copyright (c) original author
             mask_patch=self.get_patch(lc_mask.unsqueeze(dim=-1)) # [b n p]
             flux_patch=self.get_patch(lc_flux) # [b n p]
             mask_patch=self.mask_layer(mask_patch) # [b n d_model]
@@ -474,11 +476,9 @@ class TS_Patch_Procedure(nn.Module):
                 lc_mask=torch.ones_like(lc_flux[:,0,:])
             normed_lc_flux=self.normalization_revin(lc_flux,mask=lc_mask,mode="norm")
             lc_flux=rearrange(lc_flux,'b m l -> b l m')
-        # 生成emb
-        # 1. 时间戳 2.相对位置编码 3.flareemb--没了
         if not lc_time is None:
             lc_time_patch=self.timestamp_patch(lc_time)
-            lc_time_patch_emb=self.timestamp_embedding(lc_time_patch) # b n d_model  # 这里会受lc_tim nan影响
+            lc_time_patch_emb=self.timestamp_embedding(lc_time_patch) # b n d_model 
         else:    
             lc_time_patch_emb=None
 
@@ -490,7 +490,9 @@ class TS_Patch_Procedure(nn.Module):
             imputed_normed_lc_flux=rearrange(imputed_normed_lc_flux,'b m l -> b l m')
             trend_season_residual_patch=self.decompose_with_3(imputed_normed_lc_flux,lc_mask,lc_time_patch_emb,position_emb,lc_labels_patch_emb,lc_labels)
         else:
-            # www24 的方法
+            # Adapted from: https://github.com/liuxu77/UniTime/blob/main/models/unitime.py
+            # Licensed under Apache 2.0
+            # Copyright (c) original author
             mask_patch=self.get_patch(lc_mask.unsqueeze(dim=-1)) # [b n p]
             flux_patch=self.get_patch(lc_flux) # [b n p]
             mask_patch=self.mask_layer(mask_patch) # [b n d_model]

@@ -18,7 +18,7 @@ from models.gpt4tsV41V4 import gpt4ts
 
 
 class MYModel(nn.Module):
-    def __init__(self,model_name,args,num_classes=2,num_star=7200,seq_len=512):
+    def __init__(self,model_name,args,num_classes=2,num_star=7200,seq_len=512,dim_in=1):
         super(MYModel, self).__init__()
         self.num_classes=num_classes
         self.dim_hid=args.dim_hid
@@ -26,14 +26,6 @@ class MYModel(nn.Module):
         self.model_name=model_name   
         self.acti=nn.ReLU()   
         
-        dim_in=1
-        # self.model=gpt4ts(seq_len,dim_in,args.dim_hid,args.gpt_layers,args.patch_size,args.stride, args.dropout,
-        # llm_model=args.llm_model,tslm_model=args.tslm_model,timestamp_type=args.timestamp_type,
-        # ifLoRA=args.ifLoRA,ifP_tuning=args.ifP_tuning,device=args.device,ifAdapter=args.ifAdapter,
-        # if_addtoken_grad=args.if_addtoken_grad,if_only_metavec=args.if_only_metavec,
-        # flare_process_type=args.flare_process_type,id_process_type=args.id_process_type,
-        # out_proj=args.out_proj,ifNorm=args.ifNorm,trend_period_extrac_type=args.trend_period_extrac_type)
-
         self.model=gpt4ts(seq_len,dim_in,args.dim_hid,args.gpt_layers,args.patch_size,args.stride, args.dropout,
         llm_model=args.llm_model,tslm_model=args.tslm_model,timestamp_type=args.timestamp_type,
         ifLoRA=args.ifLoRA,ifP_tuning=args.ifP_tuning,device=args.device,ifAdapter=args.ifAdapter,

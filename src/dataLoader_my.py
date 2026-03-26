@@ -25,11 +25,10 @@ class MyDataset1_noscaler(Dataset):
         self._generate_train_()
 
     def load_meta_idxs_feats(self,meta_feats_path):
-        data=np.load(meta_feats_path) # 已经按照kid 排序了
+        data=np.load(meta_feats_path) 
         meta_kids=data[:,0].flatten()
         meta_feats=data[:,1:].astype(np.float_)
         mask=np.isin(self.kids,meta_kids)
-        # 填充nan 并且做归一
         if self.if_only_metavec:
             mean_=np.nanmean(meta_feats,axis=0)
             std_=np.nanstd(meta_feats,axis=0)
@@ -40,7 +39,6 @@ class MyDataset1_noscaler(Dataset):
 
     def _generate_train_(self):
         if self.ifTrain:
-            # mmap_mode="r+" 这样的读取方式 代码安全了 但是运行速度显著降低
             # np.memmap(file_path, dtype="float32", mode="r")
             all_datas=np.load(os.path.join(self.npy_dir_path,"all_datas_Tr.npy"),mmap_mode="r+")
             # all_datas=np.load(os.path.join(self.npy_dir_path,"all_datas_Tr.npy"))

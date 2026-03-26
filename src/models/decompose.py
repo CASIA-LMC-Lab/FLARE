@@ -60,7 +60,6 @@ class series_decomp_multi(nn.Module):
 
         # sea = sum(res) / len(res)
         # moving_mean = sum(moving_mean) / len(moving_mean)
-        # 这里稍微改一下 改成拼接 的 
         sea=torch.concatenate(res,dim=-1)
         moving_mean=torch.concatenate(moving_mean,dim=-1)
         return sea, moving_mean
@@ -70,8 +69,6 @@ class series_decomp_multi(nn.Module):
 # Copyright (c) 2024 Defu Cao
 # License: MIT
 class TEMPO_decompose(nn.Module):
-# copy from 
-# 
     def __init__(self,seq_len=512,kernel_size=25,stride=1):
         super().__init__()
         self.moving_avg=moving_avg(kernel_size,stride)

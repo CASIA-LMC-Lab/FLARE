@@ -91,8 +91,9 @@ class Summary:
 
 
 
-#########################
-# copy from moment
+# Adapted from: https://github.com/moment-timeseries-foundation-model/moment-research
+# Copyright (c) 2024 Auton Lab, Carnegie Mellon University
+# License: MIT
 def _reduce(metric, reduction="mean", axis=None):
     if reduction == "mean":
         return np.nanmean(metric, axis=axis)
@@ -169,7 +170,6 @@ def get_classification_metrics(y, y_hat, reduction='mean',thres=0.5):
     tn, fp, fn, tp =confusion_matrix(labels,preds).ravel()
 
     # precision @ k 
-    # 粗略设置k为 50 100 500
     argsort_probs=np.argsort(probs).flatten()
     tpp=np.logical_and(preds,labels.astype(np.bool_))
     precision_at_50=np.sum(tpp[argsort_probs[-50:]])/50
@@ -219,7 +219,6 @@ def get_classification_metrics(y, y_hat, reduction='mean',thres=0.5):
     
     return metrics
     
-# 获取当 f1 最大时的 thres 以及 metrics
 def get_classification_metrics2(y,probs_1):
     # probs_1=y_probs[:,1]
     labels=y
@@ -229,8 +228,6 @@ def get_classification_metrics2(y,probs_1):
     return thres
 
 
-# y yhat 为 B L 
-# 需要重新计算
 def get_classification_metrics3(y, y_hat, thres=0.5):
     B,L=y.shape
     yrow=np.sum(y,axis=1)    

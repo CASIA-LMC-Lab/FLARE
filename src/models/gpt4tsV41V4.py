@@ -1,6 +1,3 @@
-
-
-
 from transformers import LlamaConfig, LlamaModel, LlamaTokenizer, GPT2Config, GPT2Model, GPT2Tokenizer, BertConfig, \
     BertModel, BertTokenizer,T5Tokenizer,AutoTokenizer
 from typing import Optional
@@ -195,7 +192,6 @@ class gpt4ts(nn.Module):
             self.tokenizer= GPT2Tokenizer.from_pretrained(
                     'openai-community/gpt2',
                     trust_remote_code=True,
-                    local_files_only=True
                 )
             origin_num_tokens=len(self.tokenizer)
             self.tokenizer.add_tokens(add_tokens)
@@ -207,23 +203,21 @@ class gpt4ts(nn.Module):
         elif llm_model=="Llama":
             add_tokens=["Catlog","Logarithm","Metallicity","Magnitude","Hα","[MASK]","R'HK"]
             self.tokenizer = AutoTokenizer.from_pretrained(
-                "/home/wangxiaoxiao/.cache/modelscope/hub/LLM-Research/Meta-Llama-3-8B",
-                trust_remote_code=True,
-                local_files_only=True
+                "meta-llama/Meta-Llama-3-8B",
+                trust_remote_code=True
             )
             origin_num_tokens=len(self.tokenizer)
             self.tokenizer.add_tokens(add_tokens)
             now_num_tokens=len(self.tokenizer)
-            llama_config = LlamaConfig.from_pretrained('/home/wangxiaoxiao/.cache/modelscope/hub/LLM-Research/Meta-Llama-3-8B')
+            llama_config = LlamaConfig.from_pretrained("LLM-Research/Meta-Llama-3-8B",trust_remote_code=True)
             llama_config.num_hidden_layers = self.num_layers
             llama_config.output_attentions = True
             llama_config.output_hidden_states = True
             self.tokenizer_len=270
-            # 是我把所有的meta_feats过了一遍 确定GPT2就是要这个数字
             self.llm_model = LlamaModel.from_pretrained(
-                    "/home/wangxiaoxiao/.cache/modelscope/hub/LLM-Research/Meta-Llama-3-8B",
-                    local_files_only=True,
-                    config=llama_config,
+                    "LLM-Research/Meta-Llama-3-8B",
+                    trust_remote_code=True,
+                    config=llama_config
                 )
         else:
             add_tokens=["catlog","Logarithm","Metallicity","Hα","R'HK","[MASK]"]
@@ -243,7 +237,7 @@ class gpt4ts(nn.Module):
             self.llm_model = BertModel.from_pretrained(
                 'google-bert/bert-base-uncased',
                 trust_remote_code=True,
-                local_files_only=True,
+                local_files_only=False,
                 config=bert_config,
             )
 
@@ -298,13 +292,13 @@ class gpt4ts(nn.Module):
                 )
                 self.tslm_model = BottleneckModel(config, self.tslm_model)
         elif tslm_model=="Llama":
-            llama_config = LlamaConfig.from_pretrained('/home/wangxiaoxiao/.cache/modelscope/hub/LLM-Research/Meta-Llama-3-8B')
+            llama_config = LlamaConfig.from_pretrained("LLM-Research/Meta-Llama-3-8B",trust_remote_code=True)
             llama_config.num_hidden_layers = self.num_layers
             llama_config.output_attentions = True
             llama_config.output_hidden_states = True
             self.tslm_model = LlamaModel.from_pretrained(
-                    "/home/wangxiaoxiao/.cache/modelscope/hub/LLM-Research/Meta-Llama-3-8B",
-                    local_files_only=True,
+                    "LLM-Research/Meta-Llama-3-8B",
+                    trust_remote_code=True,
                     config=llama_config,
                 )
             # 参数调整
@@ -341,7 +335,6 @@ class gpt4ts(nn.Module):
             self.tslm_model = BertModel.from_pretrained(
                 'google-bert/bert-base-uncased',
                 trust_remote_code=True,
-                local_files_only=True,
                 config=bert_config,
             )
             # 参数调整
