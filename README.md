@@ -20,7 +20,7 @@ Stellar flare events are critical observational samples for astronomical researc
 
 First, clone the repository to your local machine:
 ```bash
-git clone [https://github.com/CASIA-LMC-Lab/FLARE.git](https://github.com/CASIA-LMC-Lab/FLARE.git)
+git clone https://github.com/CASIA-LMC-Lab/FLARE.git
 cd FLARE
 ```
 
