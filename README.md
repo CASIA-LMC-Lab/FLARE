@@ -10,6 +10,8 @@ Stellar flare events are critical observational samples for astronomical researc
 
 ## 🚀 Model Architecture
 
+![](figures/flare_framework.jpg)
+
 * **Soft Prompt Module**: Converts tabular-form stellar physical properties and their names into textual descriptions, utilizing P-tuning to distinguish between different stars effectively and facilitate star-specific feature detection.
 * **Residual Record Fusion Module**: Decomposes the light curve into trend and residual components, integrating historical flare records with the light curve residuals to enhance model robustness.
 * **PLM Fine-tuning**: Employs Parameter-Efficient Fine-Tuning (PEFT) methods like LoRA to freeze the majority of the Pre-trained Large Model (PLM) parameters while allowing it to adapt to cross-modal inputs (physical property texts and light curves).
